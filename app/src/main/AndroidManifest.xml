@@ -61,7 +61,9 @@
 
         <service android:name=".service.AlarmIntentService" />
 
-        <activity android:name=".CancelAlarmActivity"></activity>
+        <activity
+            android:name=".CancelAlarmActivity"
+            android:theme="@style/Theme.AppCompat.Dialog"/>
     </application>
 
 </manifest>

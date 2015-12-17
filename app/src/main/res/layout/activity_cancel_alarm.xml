@@ -12,7 +12,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
+        android:id="@+id/edit_dialog_anwser"
         android:layout_marginTop="148dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
@@ -21,9 +21,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textView"
-        android:layout_alignBottom="@+id/editText"
+        android:id="@+id/text_dialog_question"
+        android:layout_alignBottom="@+id/edit_dialog_anwser"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="80dp"
         android:layout_alignParentEnd="true" />
@@ -31,20 +30,20 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button"
+        android:text="@string/button_dismiss"
+        android:id="@+id/button_dismiss"
         android:layout_marginStart="46dp"
         android:layout_marginTop="108dp"
-        android:layout_below="@+id/editText"
+        android:layout_below="@+id/edit_dialog_anwser"
         android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button2"
-        android:layout_alignBaseline="@+id/button"
-        android:layout_alignBottom="@+id/button"
+        android:text="@string/button_snooze"
+        android:id="@+id/button_snooze"
+        android:layout_alignBaseline="@+id/button_dismiss"
+        android:layout_alignBottom="@+id/button_dismiss"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="39dp" />
 </RelativeLayout>

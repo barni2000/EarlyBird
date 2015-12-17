@@ -12,6 +12,7 @@ import android.support.v4.content.WakefulBroadcastReceiver;
 import java.util.Calendar;
 import java.util.List;
 
+import m.earlybird.CancelAlarmActivity;
 import m.earlybird.model.TimeModel;
 import m.earlybird.service.AlarmIntentService;
 
@@ -24,7 +25,6 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Intent service = new Intent(context, AlarmIntentService.class);
-
         startWakefulService(context, service);
     }
 
@@ -43,10 +43,8 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
             calendar.set(Calendar.HOUR_OF_DAY, alarm.getHour());
             calendar.set(Calendar.MINUTE, alarm.getMinute());
 
-            alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP,
-                    calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
-
-
+            alarmMgr.setExact(AlarmManager.RTC_WAKEUP,
+                    calendar.getTimeInMillis(), alarmIntent);
         }
         ComponentName receiver = new ComponentName(context, BootReceiver.class);
         PackageManager pm = context.getPackageManager();

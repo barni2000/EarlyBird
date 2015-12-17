@@ -86,4 +86,6 @@
     <string name="pref_title_questions">Enable Questions</string>
     <string name="pref_title_snooze">Snooze Interval</string>
     <string name="pref_header_alarm">Alarm Preferences</string>
+    <string name="button_dismiss">Dismiss</string>
+    <string name="button_snooze">Snooze</string>
 </resources>
