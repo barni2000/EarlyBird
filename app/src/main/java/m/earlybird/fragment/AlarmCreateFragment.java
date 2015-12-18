@@ -107,7 +107,7 @@ public class AlarmCreateFragment extends DialogFragment {
                             repeat.add(tb.isChecked());
                         }
                         TimeModel alarm = new TimeModel(
-                                timePicker.getCurrentHour(),
+                                timePicker.getCurrentHour()+diffUtc,
                                 timePicker.getCurrentMinute(),
                                 snooze.isChecked(),
                                 repeat

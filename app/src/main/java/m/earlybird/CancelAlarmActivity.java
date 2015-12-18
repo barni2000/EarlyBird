@@ -1,13 +1,17 @@
 package m.earlybird;
 
-import android.app.AlarmManager;
-import android.app.Service;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -18,6 +22,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import m.earlybird.model.QuestionModel;
+import m.earlybird.receiver.AlarmReceiver;
 
 public class CancelAlarmActivity extends AppCompatActivity {
 
@@ -38,23 +43,42 @@ public class CancelAlarmActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        questions = QuestionModel.listAll(QuestionModel.class);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+
+        boolean enable_question = sp.getBoolean("alarm_enable_questions", true);
+
+        if(enable_question){
+            questions = QuestionModel.listAll(QuestionModel.class);
+            textQuestion.setVisibility(View.VISIBLE);
+            editAnswer.setVisibility(View.VISIBLE);
 
 
-        size = questions.size();
-        if(size > 0) {
+            size = questions.size();
+            if(size > 0) {
 
-            Random random = new Random(System.currentTimeMillis());
-            index = random.nextInt(questions.size());
-            textQuestion.setText(questions.get(index).getQuestion());
+                Random random = new Random(System.currentTimeMillis());
+                index = random.nextInt(questions.size());
+                textQuestion.setText(questions.get(index).getQuestion());
+            }
+
+
+        }else{
+            textQuestion.setVisibility(View.GONE);
+            editAnswer.setVisibility(View.GONE);
         }
 
         try {
-            Uri alarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-            r = RingtoneManager.getRingtone(getApplicationContext(), alarm);
-            r.play();
-        } catch (Exception e) {
-            e.printStackTrace();
+            Uri alert =  RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+            MediaPlayer mMediaPlayer = new MediaPlayer();
+            mMediaPlayer.setDataSource(this, alert);
+            final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            if (audioManager.getStreamVolume(AudioManager.STREAM_ALARM) != 0) {
+                mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+                mMediaPlayer.setLooping(true);
+                mMediaPlayer.prepare();
+                mMediaPlayer.start();
+            }
+        } catch(Exception e) {
         }
 
 
@@ -66,16 +90,21 @@ public class CancelAlarmActivity extends AppCompatActivity {
         if(size == 0){
             r.stop();
             finish();
+            AlarmReceiver.cancelAlarm(this);
         }else if(editAnswer.getText().toString().equals(questions.get(index).getAnswer()) ){
             r.stop();
             finish();
+            AlarmReceiver.cancelAlarm(this);
         }
     }
 
     @OnClick(R.id.button_snooze)
     void onSnooze(){
-        //TODO: Snooze
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        int interval = Integer.valueOf(sp.getString("alarm_snooze","5"));
+        AlarmReceiver.snooze(interval);
         r.stop();
+        finish();
     }
 
 

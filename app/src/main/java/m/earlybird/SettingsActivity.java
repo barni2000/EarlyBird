@@ -61,10 +61,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                                 : null);
 
             }
-            else if (preference instanceof SwitchPreference){
-                SwitchPreference switchPreference = (SwitchPreference) preference;
-                Boolean snooze = switchPreference.isChecked();
-            }
             else if (preference instanceof RingtonePreference) {
                 // For ringtone preferences, look up the correct display value
                 // using RingtoneManager.
